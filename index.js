@@ -2,11 +2,11 @@
 const path = require('path');
 const electron = require('electron');
 const Conf = require('conf');
+const os = require('os');
 
 class ElectronStore extends Conf {
-	constructor(options) {
-		const app = (electron.app || electron.remote.app);
-		const defaultCwd = app.getPath('userData');
+	constructor(options, defaultPath=os.tmpdir()) {
+		const defaultCwd = defaultPath;
 
 		options = {
 			name: 'config',
@@ -14,7 +14,7 @@ class ElectronStore extends Conf {
 		};
 
 		if (!options.projectVersion) {
-			options.projectVersion = app.getVersion();
+			options.projectVersion = process.versions.electron
 		}
 
 		if (options.cwd) {
